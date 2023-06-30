@@ -1,12 +1,15 @@
 package tech.chillo.sa.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import tech.chillo.sa.dto.SentimentDTO;
 import tech.chillo.sa.entites.Client;
 import tech.chillo.sa.entites.Sentiment;
 import tech.chillo.sa.enums.TypeSentiment;
 import tech.chillo.sa.repository.SentimentRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -33,15 +36,24 @@ public class SentimentService {
         this.sentimentRepository.save(sentiment);
     }
 
-    public List<Sentiment> rechercher(TypeSentiment type) {
+    public List<SentimentDTO> rechercher(TypeSentiment type) {
+        List<Sentiment> sentiments;
         if(type == null) {
-            return this.sentimentRepository.findAll();
+            sentiments = this.sentimentRepository.findAll();
         } else {
-            return this.sentimentRepository.findByType(type);
+            sentiments = this.sentimentRepository.findByType(type);
         }
+        return sentiments.stream().map(SentimentDTO::fromSentiment).toList();
     }
 
     public void supprimer(int id) {
         this.sentimentRepository.deleteById(id);
+    }
+
+    public Sentiment lire(int id) {
+        Optional<Sentiment> optionalSentiment = this.sentimentRepository.findById(id);
+        return optionalSentiment.orElseThrow(
+                () -> new EntityNotFoundException("Aucun sentiment n'existe avec cet id")
+        );
     }
 }

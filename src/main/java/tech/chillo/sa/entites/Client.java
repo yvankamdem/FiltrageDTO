@@ -6,7 +6,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.Calendar;
+import java.util.Date;
+@Getter
+@Setter
 @Entity
 @Table(name = "CLIENT")
 public class Client {
@@ -16,37 +22,16 @@ public class Client {
     @Column(unique = true)
     private String email;
     private String telephone;
+    private Date creation;
 
     public Client() {
     }
 
-    public Client(int id, String email, String telephone) {
+    public Client(int id, String email, String telephone, Date creation, Date misAjour) {
         this.id = id;
         this.email = email;
         this.telephone = telephone;
+        this.creation = creation;
     }
 
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

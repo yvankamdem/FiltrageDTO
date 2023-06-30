@@ -2,11 +2,13 @@ package tech.chillo.sa.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import tech.chillo.sa.dto.ClientDTO;
 import tech.chillo.sa.entites.Client;
 import tech.chillo.sa.repository.ClientRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class ClientService {
@@ -17,15 +19,17 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public void creer(Client client){
+    public Client creer(Client client){
         Client clientDansLaBDD = this.clientRepository.findByEmail(client.getEmail());
         if(clientDansLaBDD == null) {
             this.clientRepository.save(client);
         }
+        return clientDansLaBDD;
     }
 
-    public List<Client> rechercher() {
-        return this.clientRepository.findAll();
+    public Stream<ClientDTO> rechercher() {
+        return this.clientRepository.findAll()
+                .stream().map(client -> new ClientDTO(client.getId(), client.getEmail(), client.getTelephone()));
     }
 
     public Client lire(int id) {
@@ -49,6 +53,7 @@ public class ClientService {
             clientDansLaBDD.setEmail(client.getEmail());
             clientDansLaBDD.setTelephone(client.getTelephone());
             this.clientRepository.save(clientDansLaBDD);
+            System.out.println("Client modifié avec succès");
         }
     }
 }

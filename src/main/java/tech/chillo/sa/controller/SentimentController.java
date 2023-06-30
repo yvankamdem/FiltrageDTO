@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import tech.chillo.sa.dto.SentimentDTO;
 import tech.chillo.sa.entites.Sentiment;
 import tech.chillo.sa.enums.TypeSentiment;
 import tech.chillo.sa.service.SentimentService;
 
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @CrossOrigin
@@ -38,7 +38,7 @@ public class SentimentController {
     }
 
     @GetMapping
-    public @ResponseBody List<Sentiment> rechercher(@RequestParam(required = false) TypeSentiment type) {
+    public @ResponseBody List<SentimentDTO> rechercher(@RequestParam(required = false) TypeSentiment type) {
         return this.sentimentService.rechercher(type);
     }
 
@@ -46,6 +46,11 @@ public class SentimentController {
     @DeleteMapping(path = "{id}")
     public void supprimer(@PathVariable int id) {
         this.sentimentService.supprimer(id);
+    }
+
+    @GetMapping(path="{id}", produces = APPLICATION_JSON_VALUE)
+    public Sentiment lire(@PathVariable int id) {
+        return this.sentimentService.lire(id);
     }
 
 }

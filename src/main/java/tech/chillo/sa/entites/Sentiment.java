@@ -9,11 +9,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 import tech.chillo.sa.enums.TypeSentiment;
 
 import static jakarta.persistence.CascadeType.MERGE;
 import static jakarta.persistence.CascadeType.PERSIST;
-
+@Getter
+@Setter
 @Entity
 @Table(name = "SENTIMENT")
 public class Sentiment {
@@ -38,35 +41,4 @@ public class Sentiment {
       this.client = client;
    }
 
-   public int getId() {
-      return id;
-   }
-
-   public void setId(int id) {
-      this.id = id;
-   }
-
-   public String getTexte() {
-      return texte;
-   }
-
-   public void setTexte(String texte) {
-      this.texte = texte;
-   }
-
-   public TypeSentiment getType() {
-      return type;
-   }
-
-   public void setType(TypeSentiment type) {
-      this.type = type;
-   }
-
-   public Client getClient() {
-      return client;
-   }
-
-   public void setClient(Client client) {
-      this.client = client;
-   }
 }
